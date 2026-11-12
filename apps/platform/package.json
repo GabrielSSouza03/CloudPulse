@@ -1,0 +1,52 @@
+{
+  "name": "@cloudpulse/platform",
+  "version": "0.1.0",
+  "private": true,
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --project unit",
+    "test:integration": "vitest run --project integration",
+    "migrate": "tsc -p tsconfig.build.json && node --env-file-if-exists=../../.env.example --env-file-if-exists=../../.env --enable-source-maps dist/scripts/migrate.js",
+    "start:api": "tsc -p tsconfig.build.json && node --env-file-if-exists=../../.env.example --env-file-if-exists=../../.env --enable-source-maps --import ./dist/telemetry.js dist/main.api.js",
+    "start:gateway": "tsc -p tsconfig.build.json && node --env-file-if-exists=../../.env.example --env-file-if-exists=../../.env --enable-source-maps --import ./dist/telemetry.js dist/main.gateway.js",
+    "start:worker": "tsc -p tsconfig.build.json && node --env-file-if-exists=../../.env.example --env-file-if-exists=../../.env --enable-source-maps --import ./dist/telemetry.js dist/main.worker.js --role=${WORKER_ROLE:-cost}",
+    "dev:token": "tsc -p tsconfig.build.json && node --env-file-if-exists=../../.env.example --env-file-if-exists=../../.env dist/scripts/dev-token.js"
+  },
+  "dependencies": {
+    "@cloudpulse/contracts": "workspace:*",
+    "@mikro-orm/core": "^7.2.8",
+    "@mikro-orm/postgresql": "^7.2.8",
+    "@mikro-orm/migrations": "^7.2.8",
+    "@nestjs/common": "^12.4.2",
+    "@nestjs/core": "^12.4.2",
+    "@nestjs/platform-fastify": "^12.4.2",
+    "@opentelemetry/api": "~1.9.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.83.0",
+    "@opentelemetry/exporter-metrics-otlp-http": "^0.301.1",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.301.1",
+    "@opentelemetry/instrumentation": "^0.301.1",
+    "@opentelemetry/sdk-metrics": "^2.0.0",
+    "@opentelemetry/sdk-node": "^0.301.1",
+    "@sinclair/typebox": "^0.34.52",
+    "decimal.js": "^10.6.0",
+    "fastify": "^5.12.8",
+    "jose": "^6.2.17",
+    "pino": "^10.4.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "uuid": "^14.0.3"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.16.22",
+    "@testcontainers/postgresql": "^12.2.1",
+    "pino-pretty": "^13.0.0",
+    "testcontainers": "^12.2.1",
+    "unplugin-swc": "^2.0.0",
+    "vitest": "^5.1.0"
+  }
+}

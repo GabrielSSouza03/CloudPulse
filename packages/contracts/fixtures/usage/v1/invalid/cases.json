@@ -1,0 +1,115 @@
+[
+  {
+    "name": "float quantity is rejected",
+    "base": "ai-llm-call.json",
+    "patch": {
+      "measurements": [
+        { "dimension": "gen_ai.usage.input_tokens", "quantity": 12.5, "unit": "token" }
+      ]
+    },
+    "expected": [{ "path": "/measurements/0/quantity", "code": "invalid_type" }]
+  },
+  {
+    "name": "negative decimal string is rejected",
+    "base": "ai-llm-call.json",
+    "patch": {
+      "measurements": [
+        { "dimension": "gen_ai.usage.input_tokens", "quantity": "-1", "unit": "token" }
+      ]
+    },
+    "expected": [{ "path": "/measurements/0/quantity", "code": "invalid_decimal" }]
+  },
+  {
+    "name": "more than 12 fractional digits is rejected",
+    "base": "compute-usage.json",
+    "patch": {
+      "measurements": [
+        {
+          "dimension": "cloudpulse.usage.vcpu",
+          "quantity": "1.1234567890123",
+          "unit": "vcpu_second"
+        }
+      ]
+    },
+    "expected": [{ "path": "/measurements/0/quantity", "code": "invalid_decimal" }]
+  },
+  {
+    "name": "missing eventId",
+    "base": "ai-llm-call.json",
+    "remove": ["eventId"],
+    "expected": [{ "path": "/eventId", "code": "required" }]
+  },
+  {
+    "name": "eventId must be a UUID",
+    "base": "ai-llm-call.json",
+    "patch": { "eventId": "evt-123" },
+    "expected": [{ "path": "/eventId", "code": "invalid_uuid" }]
+  },
+  {
+    "name": "unknown top-level field",
+    "base": "ai-llm-call.json",
+    "patch": { "tenantId": "01933b6e-0000-7000-8000-000000000099" },
+    "expected": [{ "path": "/tenantId", "code": "unknown_field" }]
+  },
+  {
+    "name": "unsupported schema version",
+    "base": "ai-llm-call.json",
+    "patch": { "schemaVersion": 2 },
+    "expected": [{ "path": "/schemaVersion", "code": "unsupported_schema_version" }]
+  },
+  {
+    "name": "unknown event type",
+    "base": "ai-llm-call.json",
+    "patch": { "eventType": "ai.image.call" },
+    "expected": [{ "path": "/eventType", "code": "invalid_value" }]
+  },
+  {
+    "name": "timestamp must be RFC 3339",
+    "base": "ai-llm-call.json",
+    "patch": { "occurredAt": "10/11/2026 22:59" },
+    "expected": [{ "path": "/occurredAt", "code": "invalid_timestamp" }]
+  },
+  {
+    "name": "dimension not allowed for event type",
+    "base": "compute-usage.json",
+    "patch": {
+      "measurements": [
+        { "dimension": "gen_ai.usage.input_tokens", "quantity": "10", "unit": "token" }
+      ]
+    },
+    "expected": [{ "path": "/measurements/0/dimension", "code": "dimension_not_allowed" }]
+  },
+  {
+    "name": "unit mismatch for dimension",
+    "base": "ai-llm-call.json",
+    "patch": {
+      "measurements": [
+        { "dimension": "gen_ai.usage.input_tokens", "quantity": "10", "unit": "request" }
+      ]
+    },
+    "expected": [{ "path": "/measurements/0/unit", "code": "unit_mismatch" }]
+  },
+  {
+    "name": "duplicate dimension",
+    "base": "ai-llm-call.json",
+    "patch": {
+      "measurements": [
+        { "dimension": "gen_ai.usage.input_tokens", "quantity": "10", "unit": "token" },
+        { "dimension": "gen_ai.usage.input_tokens", "quantity": "20", "unit": "token" }
+      ]
+    },
+    "expected": [{ "path": "/measurements/1/dimension", "code": "duplicate_dimension" }]
+  },
+  {
+    "name": "execution.completed requires outcome",
+    "base": "execution-completed.json",
+    "remove": ["outcome"],
+    "expected": [{ "path": "/outcome", "code": "missing_outcome" }]
+  },
+  {
+    "name": "currency must be ISO 4217",
+    "base": "ai-llm-call.json",
+    "patch": { "reportedCost": { "amount": "0.01", "currency": "usd" } },
+    "expected": [{ "path": "/reportedCost/currency", "code": "invalid_format" }]
+  }
+]

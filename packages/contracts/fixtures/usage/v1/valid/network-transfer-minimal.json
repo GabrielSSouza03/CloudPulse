@@ -1,0 +1,9 @@
+{
+  "eventId": "01933b71-0000-7000-8000-00000000000b",
+  "eventType": "network.transfer",
+  "schemaVersion": 1,
+  "occurredAt": "2026-11-10T23:05:00+00:00",
+  "source": { "kind": "provider", "name": "aws-cur" },
+  "workloadId": "wl_api",
+  "measurements": [{ "dimension": "cloudpulse.usage.egress", "quantity": "12.75", "unit": "gb" }]
+}

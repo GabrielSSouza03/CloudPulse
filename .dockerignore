@@ -1,0 +1,12 @@
+**/node_modules
+**/dist
+**/coverage
+.git
+.github
+.cursor
+.dev
+.env
+.env.*
+!.env.example
+docs
+infra

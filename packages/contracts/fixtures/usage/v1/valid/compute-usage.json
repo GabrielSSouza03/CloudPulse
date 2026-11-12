@@ -1,0 +1,15 @@
+{
+  "eventId": "01933b6f-1111-7222-8333-444455556666",
+  "eventType": "compute.usage",
+  "schemaVersion": 1,
+  "occurredAt": "2026-11-10T23:00:00Z",
+  "source": { "kind": "collector", "name": "k8s-metering" },
+  "workloadId": "wl_inference_gpu",
+  "resourceId": "arn:aws:ec2:us-east-1:123456789012:instance/i-0abc",
+  "attributes": { "cloud.provider": "aws", "cloud.region": "us-east-1", "gpu.type": "L4" },
+  "measurements": [
+    { "dimension": "cloudpulse.usage.vcpu", "quantity": "1440.5", "unit": "vcpu_second" },
+    { "dimension": "cloudpulse.usage.memory", "quantity": "5760.25", "unit": "gb_second" },
+    { "dimension": "cloudpulse.usage.gpu", "quantity": "360", "unit": "gpu_second" }
+  ]
+}

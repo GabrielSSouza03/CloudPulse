@@ -1,0 +1,39 @@
+{
+  "name": "cloudpulse",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.18.0",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "build": "pnpm -r run build",
+    "typecheck": "pnpm -r run typecheck",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "pnpm -r run test",
+    "test:integration": "pnpm --filter @cloudpulse/platform run test:integration",
+    "boundaries": "depcruise apps/platform/src --config .dependency-cruiser.cjs",
+    "dev:up": "docker compose -f infra/compose/docker-compose.yml --profile core up -d --wait",
+    "dev:up:obs": "docker compose -f infra/compose/docker-compose.yml --profile core --profile obs up -d --wait",
+    "dev:down": "docker compose -f infra/compose/docker-compose.yml --profile core --profile obs down",
+    "dev:reset": "docker compose -f infra/compose/docker-compose.yml --profile core --profile obs down -v",
+    "dev:stats": "docker stats --no-stream --format 'table {{.Name}}\\t{{.MemUsage}}\\t{{.CPUPerc}}'",
+    "migrate": "pnpm --filter @cloudpulse/platform run migrate",
+    "start:api": "pnpm --filter @cloudpulse/platform run start:api",
+    "start:gateway": "pnpm --filter @cloudpulse/platform run start:gateway",
+    "start:worker": "pnpm --filter @cloudpulse/platform run start:worker",
+    "dev:token": "pnpm --filter @cloudpulse/platform run dev:token"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.0",
+    "@types/node": "^24.0.0",
+    "dependency-cruiser": "^18.7.2",
+    "eslint": "^10.14.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.9.10",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.72.2"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "eventId": "01933b70-0000-7000-8000-00000000000a",
+  "eventType": "execution.completed",
+  "schemaVersion": 1,
+  "occurredAt": "2026-11-10T23:01:12.500Z",
+  "source": { "kind": "sdk", "name": "agent-runtime", "version": "1.4.0" },
+  "workloadId": "wl_support_agent",
+  "executionId": "01933b6e-0000-7000-8000-000000000001",
+  "measurements": [
+    { "dimension": "cloudpulse.usage.duration", "quantity": "74.38", "unit": "second" }
+  ],
+  "outcome": "success"
+}

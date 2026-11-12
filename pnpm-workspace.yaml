@@ -1,0 +1,10 @@
+packages:
+  - apps/*
+  - packages/*
+
+allowBuilds:
+  '@swc/core': true
+  esbuild: true
+  cpu-features: false
+  ssh2: false
+  protobufjs: false

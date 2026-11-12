@@ -1,0 +1,286 @@
+{
+  "additionalProperties": false,
+  "$id": "https://cloudpulse.dev/schemas/usage-envelope.v1.json",
+  "type": "object",
+  "required": [
+    "eventId",
+    "eventType",
+    "schemaVersion",
+    "occurredAt",
+    "source",
+    "workloadId",
+    "measurements"
+  ],
+  "properties": {
+    "eventId": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "eventType": {
+      "anyOf": [
+        {
+          "const": "ai.llm.call",
+          "type": "string"
+        },
+        {
+          "const": "ai.embedding.call",
+          "type": "string"
+        },
+        {
+          "const": "ai.tool.call",
+          "type": "string"
+        },
+        {
+          "const": "ai.vector.op",
+          "type": "string"
+        },
+        {
+          "const": "execution.started",
+          "type": "string"
+        },
+        {
+          "const": "execution.completed",
+          "type": "string"
+        },
+        {
+          "const": "compute.usage",
+          "type": "string"
+        },
+        {
+          "const": "storage.usage",
+          "type": "string"
+        },
+        {
+          "const": "network.transfer",
+          "type": "string"
+        },
+        {
+          "const": "external.service.call",
+          "type": "string"
+        }
+      ]
+    },
+    "schemaVersion": {
+      "const": 1,
+      "type": "number"
+    },
+    "occurredAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "source": {
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "kind",
+        "name"
+      ],
+      "properties": {
+        "kind": {
+          "anyOf": [
+            {
+              "const": "sdk",
+              "type": "string"
+            },
+            {
+              "const": "otel",
+              "type": "string"
+            },
+            {
+              "const": "collector",
+              "type": "string"
+            },
+            {
+              "const": "provider",
+              "type": "string"
+            }
+          ]
+        },
+        "name": {
+          "minLength": 1,
+          "maxLength": 128,
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "type": "string"
+        }
+      }
+    },
+    "workloadId": {
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+      "type": "string"
+    },
+    "executionId": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "parentExecutionId": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "agentId": {
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+      "type": "string"
+    },
+    "resourceId": {
+      "minLength": 1,
+      "maxLength": 512,
+      "type": "string"
+    },
+    "stepIndex": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "attempt": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "reservationId": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "attributes": {
+      "maxProperties": 64,
+      "type": "object",
+      "patternProperties": {
+        "^(.*)$": {
+          "anyOf": [
+            {
+              "maxLength": 1024,
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        }
+      }
+    },
+    "measurements": {
+      "maxItems": 32,
+      "type": "array",
+      "items": {
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "dimension",
+          "quantity",
+          "unit"
+        ],
+        "properties": {
+          "dimension": {
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[a-z][a-z0-9_.]*$",
+            "type": "string"
+          },
+          "quantity": {
+            "pattern": "^(0|[1-9][0-9]{0,23})(\\.[0-9]{1,12})?$",
+            "maxLength": 40,
+            "description": "Non-negative decimal string, up to 24 integer and 12 fractional digits.",
+            "type": "string"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "const": "token",
+                "type": "string"
+              },
+              {
+                "const": "request",
+                "type": "string"
+              },
+              {
+                "const": "call",
+                "type": "string"
+              },
+              {
+                "const": "operation",
+                "type": "string"
+              },
+              {
+                "const": "second",
+                "type": "string"
+              },
+              {
+                "const": "vcpu_second",
+                "type": "string"
+              },
+              {
+                "const": "gb_second",
+                "type": "string"
+              },
+              {
+                "const": "gpu_second",
+                "type": "string"
+              },
+              {
+                "const": "gb_month",
+                "type": "string"
+              },
+              {
+                "const": "byte",
+                "type": "string"
+              },
+              {
+                "const": "gb",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "reportedCost": {
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "amount": {
+          "pattern": "^(0|[1-9][0-9]{0,23})(\\.[0-9]{1,12})?$",
+          "maxLength": 40,
+          "description": "Non-negative decimal string, up to 24 integer and 12 fractional digits.",
+          "type": "string"
+        },
+        "currency": {
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 code.",
+          "type": "string"
+        }
+      }
+    },
+    "outcome": {
+      "anyOf": [
+        {
+          "const": "success",
+          "type": "string"
+        },
+        {
+          "const": "failure",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  }
+}

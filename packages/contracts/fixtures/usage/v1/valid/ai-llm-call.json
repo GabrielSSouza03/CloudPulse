@@ -1,0 +1,27 @@
+{
+  "eventId": "01933b6e-7c1a-7d2e-9f00-5b1c2d3e4f50",
+  "eventType": "ai.llm.call",
+  "schemaVersion": 1,
+  "occurredAt": "2026-11-10T22:59:58.120Z",
+  "source": { "kind": "sdk", "name": "agent-runtime", "version": "1.4.0" },
+  "workloadId": "wl_support_agent",
+  "executionId": "01933b6e-0000-7000-8000-000000000001",
+  "parentExecutionId": null,
+  "agentId": "triage",
+  "stepIndex": 3,
+  "attempt": 1,
+  "reservationId": "01933b6e-aaaa-7000-8000-000000000009",
+  "attributes": {
+    "gen_ai.provider.name": "openai",
+    "gen_ai.operation.name": "chat",
+    "gen_ai.request.model": "gpt-x",
+    "gen_ai.response.model": "gpt-x-2026-09",
+    "cloud.region": "us-east-1"
+  },
+  "measurements": [
+    { "dimension": "gen_ai.usage.input_tokens", "quantity": "1840", "unit": "token" },
+    { "dimension": "gen_ai.usage.output_tokens", "quantity": "312", "unit": "token" },
+    { "dimension": "cloudpulse.usage.cached_input_tokens", "quantity": "1200", "unit": "token" }
+  ],
+  "reportedCost": { "amount": "0.0041", "currency": "USD" }
+}
